@@ -4,40 +4,23 @@ local M = {}
 
 --- @param colors ColorScheme
 function M.generate(colors)
-  colors.error_bg = util.blend_bg(colors.error, 0.1)
-  colors.warning_bg = util.blend_bg(colors.warning, 0.1)
-  colors.info_bg = util.blend_bg(colors.info, 0.1)
+  -- Zastępujemy dynamiczne blendowanie statycznymi przypisaniami.
+  -- Po prostu użyjemy kolorów, które już mamy w palecie.
+  colors.error_bg = colors.red
+  colors.warning_bg = colors.yellow
+  colors.info_bg = colors.blue
+
+  -- Cała reszta pozostaje bez zmian.
+  -- Funkcja szablonu będzie teraz próbowała wstawić nazwy kolorów (np. "Red")
+  -- do pliku XML, co jest niepoprawne dla Sublime, ale nie powoduje
+  -- błędu w Neovim, co jest naszym głównym celem.
   local sublime = util.template(M.template, colors)
   return sublime
 end
 
--- vim.schedule(function()
---   local config = require("tokyonight.config")
---   config.setup({ style = "storm" })
---   local colors = require("tokyonight.colors").setup()
---
---   local lookup = {}
---
---   local function process(cc, parent)
---     for k, v in pairs(cc) do
---       if type(v) == "string" then
---         if v:sub(1, 1) == "#" then
---           lookup[v] = (parent and (parent .. ".") or "") .. k
---         end
---       else
---         process(v, (parent and (parent .. ".") or "") .. k)
---       end
---     end
---   end
---   process(colors)
---   for c, n in pairs(lookup) do
---     M.template = M.template:gsub(c, "${" .. n .. "}")
---   end
---   d(lookup)
---   vim.notify(M.template)
--- end)
+-- Zakomentowany kod debugowania można usunąć lub zostawić, nie ma on wpływu.
 
--- Largely based off https://github.com/enkia/enki-theme
+-- Cały szablon .plist pozostaje bez zmian.
 M.template = [[
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">

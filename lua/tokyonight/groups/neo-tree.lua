@@ -6,19 +6,21 @@ M.url = "https://github.com/nvim-neo-tree/neo-tree.nvim"
 
 ---@type tokyonight.HighlightsFn
 function M.get(c, opts)
-  local dark = opts.styles.sidebars == "transparent" and c.none
-    or Util.blend(c.bg_sidebar, 0.8, opts.style == "day" and c.blue or "#000000")
+  -- Zastępujemy dynamiczne blendowanie statycznym przypisaniem.
+  -- Po prostu użyjemy koloru, który już mamy w palecie.
+  local dark = opts.styles.sidebars == "transparent" and c.none or c.bg_dark
+
   -- stylua: ignore
   return {
     NeoTreeDimText             = { fg = c.fg_gutter },
     NeoTreeFileName            = { fg = c.fg_sidebar },
     NeoTreeGitModified         = { fg = c.orange },
-    NeoTreeGitStaged           = { fg = c.green1 },
+    NeoTreeGitStaged           = { fg = c.green },
     NeoTreeGitUntracked        = { fg = c.magenta },
     NeoTreeNormal              = { fg = c.fg_sidebar, bg = c.bg_sidebar },
     NeoTreeNormalNC            = { fg = c.fg_sidebar, bg = c.bg_sidebar },
     NeoTreeTabActive           = { fg = c.blue, bg = c.bg_dark, bold = true },
-    NeoTreeTabInactive         = { fg = c.dark3, bg = dark },
+    NeoTreeTabInactive         = { fg = c.comment, bg = dark },
     NeoTreeTabSeparatorActive  = { fg = c.blue, bg = c.bg_dark },
     NeoTreeTabSeparatorInactive= { fg = c.bg, bg = dark },
   }

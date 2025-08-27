@@ -16,7 +16,8 @@ function M.get(c, opts)
     RenderMarkdownCodeInline = "@markup.raw.markdown_inline"
   }
   for i, color in ipairs(c.rainbow) do
-    ret["RenderMarkdownH" .. i .. "Bg"] = { bg = Util.blend_bg(color, 0.1) }
+    -- Zamiast blendować tło, użyjemy ciemniejszego tła z naszej palety
+    ret["RenderMarkdownH" .. i .. "Bg"] = { bg = c.bg_dark }
     ret["RenderMarkdownH" .. i .. "Fg"] = { fg = color, bold = true }
   end
   return ret

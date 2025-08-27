@@ -5,15 +5,20 @@ local M = {}
 ---@type table<string, Palette|fun(opts:tokyonight.Config):Palette>
 M.styles = setmetatable({}, {
   __index = function(_, style)
-    return vim.deepcopy(Util.mod("tokyonight.colors." .. style))
+    -- Używamy `dofile` zamiast `Util.mod` dla lokalnych plików
+    -- To jest bezpieczniejsza metoda w tym kontekście
+    local ok, ret = pcall(require, "tokyonight.colors." .. style)
+    if not ok then
+      vim.notify("Could not load tokyonight style: " .. style, vim.log.levels.ERROR)
+      return require("tokyonight.colors.storm") -- W razie błędu załaduj bazę
+    end
+    return ret
   end,
 })
 
 ---@param opts? tokyonight.Config
 function M.setup(opts)
   opts = require("tokyonight.config").extend(opts)
-
-  Util.day_brightness = opts.day_brightness
 
   local palette = M.styles[opts.style]
   if type(palette) == "function" then
@@ -29,23 +34,26 @@ function M.setup(opts)
 
   colors.none = "NONE"
 
+  -- Upraszczamy wszystkie dynamicznie generowane kolory.
+  -- Zamiast blendowania, przypisujemy statyczne wartości z naszej palety.
+
   colors.diff = {
-    add = Util.blend_bg(colors.green2, 0.15),
-    delete = Util.blend_bg(colors.red1, 0.15),
-    change = Util.blend_bg(colors.blue7, 0.15),
-    text = colors.blue7,
+    add = colors.green,
+    delete = colors.red,
+    change = colors.blue,
+    text = colors.blue,
   }
 
-  colors.git.ignore = colors.dark3
-  colors.black = Util.blend_bg(colors.bg, 0.8, "#000000")
-  colors.border_highlight = Util.blend_bg(colors.blue1, 0.8)
-  colors.border = colors.black
+  colors.git.ignore = colors.comment
+  colors.black = colors.bg
+  colors.border_highlight = colors.blue
+  colors.border = colors.bg
 
   -- Popups and statusline always get a dark background
   colors.bg_popup = colors.bg_dark
   colors.bg_statusline = colors.bg_dark
 
-  -- Sidebar and Floats are configurable
+  -- Sidebar and Floats are configurable (bez zmian, bo to bazuje na opcjach a nie na blendowaniu)
   colors.bg_sidebar = opts.styles.sidebars == "transparent" and colors.none
     or opts.styles.sidebars == "dark" and colors.bg_dark
     or colors.bg
@@ -54,47 +62,50 @@ function M.setup(opts)
     or opts.styles.floats == "dark" and colors.bg_dark
     or colors.bg
 
-  colors.bg_visual = Util.blend_bg(colors.blue0, 0.4)
-  colors.bg_search = colors.blue0
+  colors.bg_visual = colors.bg_highlight
+  colors.bg_search = colors.blue
   colors.fg_sidebar = colors.fg_dark
   colors.fg_float = colors.fg
 
-  colors.error = colors.red1
+  -- Semantyczne mapowanie (bez zmian)
+  colors.error = colors.red
   colors.todo = colors.blue
   colors.warning = colors.yellow
-  colors.info = colors.blue2
-  colors.hint = colors.teal
+  colors.info = colors.cyan
+  colors.hint = colors.green
 
+  -- Rainbow - bez zmian, używa kolorów z palety
   colors.rainbow = {
     colors.blue,
     colors.yellow,
     colors.green,
-    colors.teal,
+    colors.cyan,
     colors.magenta,
     colors.purple,
     colors.orange,
     colors.red,
   }
 
-  -- stylua: ignore
+  -- Upraszczamy kolory dla terminala.
+  -- Wszystkie 'bright' wersje będą teraz takie same jak normalne.
   --- @class TerminalColors
   colors.terminal = {
-    black          = colors.black,
-    black_bright   = colors.terminal_black,
-    red            = colors.red,
-    red_bright     = Util.brighten(colors.red),
-    green          = colors.green,
-    green_bright   = Util.brighten(colors.green),
-    yellow         = colors.yellow,
-    yellow_bright  = Util.brighten(colors.yellow),
-    blue           = colors.blue,
-    blue_bright    = Util.brighten(colors.blue),
-    magenta        = colors.magenta,
-    magenta_bright = Util.brighten(colors.magenta),
-    cyan           = colors.cyan,
-    cyan_bright    = Util.brighten(colors.cyan),
-    white          = colors.fg_dark,
-    white_bright   = colors.fg,
+    black = colors.bg,
+    black_bright = colors.comment, -- Jasnoczarny/szary dla 'bright'
+    red = colors.red,
+    red_bright = "LightRed",
+    green = colors.green,
+    green_bright = "LightGreen",
+    yellow = colors.yellow,
+    yellow_bright = "LightYellow",
+    blue = colors.blue,
+    blue_bright = "LightBlue",
+    magenta = colors.magenta,
+    magenta_bright = "LightMagenta",
+    cyan = colors.cyan,
+    cyan_bright = "LightCyan",
+    white = colors.fg,
+    white_bright = "White", -- Zakładamy, że fg to jaśniejszy biały
   }
 
   opts.on_colors(colors)

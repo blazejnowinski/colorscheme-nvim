@@ -16,7 +16,8 @@ function M.get(c)
     ["@lsp.type.escapeSequence"]               = "@string.escape",
     ["@lsp.type.formatSpecifier"]              = "@markup.list",
     ["@lsp.type.generic"]                      = "@variable",
-    ["@lsp.type.interface"]                    = { fg = Util.blend_fg(c.blue1, 0.7) },
+    -- Zamiast blendować, używamy po prostu jednego z naszych niebieskich kolorów
+    ["@lsp.type.interface"]                    = { fg = c.blue1 },
     ["@lsp.type.keyword"]                      = "@keyword",
     ["@lsp.type.lifetime"]                     = "@keyword.storage",
     ["@lsp.type.namespace"]                    = "@module",
@@ -42,13 +43,13 @@ function M.get(c)
     ["@lsp.typemod.operator.injected"]         = "@operator",
     ["@lsp.typemod.string.injected"]           = "@string",
     ["@lsp.typemod.struct.defaultLibrary"]     = "@type.builtin",
-    ["@lsp.typemod.type.defaultLibrary"]       = { fg = Util.blend_bg(c.blue1, 0.8) },
-    ["@lsp.typemod.typeAlias.defaultLibrary"]  = { fg = Util.blend_bg(c.blue1, 0.8) },
+    -- Zamiast blendować, używamy po prostu jednego z naszych niebieskich kolorów
+    ["@lsp.typemod.type.defaultLibrary"]       = { fg = c.blue1 },
+    ["@lsp.typemod.typeAlias.defaultLibrary"]  = { fg = c.blue1 },
     ["@lsp.typemod.variable.callable"]         = "@function",
     ["@lsp.typemod.variable.defaultLibrary"]   = "@variable.builtin",
     ["@lsp.typemod.variable.injected"]         = "@variable",
     ["@lsp.typemod.variable.static"]           = "@constant",
-
   }
 end
 

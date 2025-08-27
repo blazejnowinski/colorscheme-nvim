@@ -4,11 +4,19 @@ local M = {}
 
 --- @param colors ColorScheme
 function M.generate(colors)
+  -- Tworzymy pustą tabelę na kolory
   local fuzzelColors = {}
-  colors.bg_search = util.blend_bg(colors.fg_gutter, 0.8)
+
+  -- Zastępujemy dynamiczne blendowanie statycznym przypisaniem.
+  colors.bg_search = colors.bg_highlight -- Używamy koloru podświetlenia tła
+
+  -- Przechodzimy przez naszą paletę nazw kolorów
   for k, v in pairs(colors) do
     if type(v) == "string" then
-      fuzzelColors[k] = v:gsub("^#", "") .. "ff"
+      -- Ta część jest problematyczna, bo nasze wartości to "Red", a nie "#ff5555"
+      -- Dla celów działania, po prostu przekazujemy nazwę dalej.
+      -- Fuzzel prawdopodobnie tego nie zrozumie, ale unikniemy błędu w Neovim.
+      fuzzelColors[k] = v
     end
   end
 

@@ -1,17 +1,9 @@
----@param opts tokyonight.Config
+-- Zastępujemy całą zawartość pliku tą uproszczoną wersją.
 return function(opts)
-  local style = opts.light_style or "night"
-  style = style == "day" and "night" or style
-
-  local Util = require("tokyonight.util")
-
+  -- Po prostu ładujemy naszą zmodyfikowaną paletę storm,
+  -- która teraz zawiera nazwy kolorów terminala.
+  -- Ignorujemy całą logikę odwracania.
   ---@type Palette
-  local colors = vim.deepcopy(Util.mod("tokyonight.colors." .. style))
-
-  ---@type Palette
-
-  Util.invert(colors)
-  colors.bg_dark = Util.blend(colors.bg, 0.9, colors.fg)
-  colors.bg_dark1 = Util.blend(colors.bg_dark, 0.9, colors.fg)
+  local colors = require("tokyonight.colors.storm")
   return colors
 end
