@@ -14,7 +14,7 @@ function M.setup(opts)
     vim.cmd("hi clear")
   end
 
-  vim.o.termguicolors = true
+  vim.o.termguicolors = false
   vim.g.colors_name = "tokyonight-" .. opts.style
 
   for group, hl in pairs(groups) do
