@@ -1,52 +1,50 @@
--- Plik: ~/projekty/colorcheme-nvim/colors/storm.lua
--- Zmodyfikowana wersja, aby używać 16 kolorów terminala
+-- Plik: ~/projekty/colorscheme-nvim/colors/storm.lua
 
 ---@class Palette
 local ret = {
-  -- Mapowanie podstawowych kolorów tła i pierwszego planu
-  bg = "Black",
-  bg_dark = "Black",
-  bg_dark1 = "Black",
-  fg = "White", -- term7 to twój główny kolor tekstu
-  fg_dark = "White",
-  fg_gutter = "LightBlack", -- term8 jako nieco jaśniejszy od tła
+  -- Mapowanie podstawowych kolorów
+  bg = 0, -- Black
+  bg_dark = 0,
+  bg_dark1 = 0,
+  fg = 7, -- White
+  fg_dark = 7,
+  fg_gutter = 8, -- LightBlack/Grey
 
-  -- Mapowanie semantycznych kolorów na nazwy ANSI
-  red = "Red",
-  green = "Green",
-  yellow = "Yellow",
-  blue = "Blue",
-  purple = "Magenta",
-  magenta = "Magenta",
-  cyan = "Cyan",
-  orange = "LightRed", -- Pomarańczowy mapujemy na jasnoczerwony (term9)
+  -- Mapowanie semantycznych kolorów na numery ANSI
+  red = 1,
+  green = 2,
+  yellow = 3,
+  blue = 4,
+  purple = 5,
+  magenta = 5,
+  cyan = 6,
+  orange = 9, -- LightRed
 
-  -- Warianty kolorów: Ponieważ mamy tylko 16 kolorów, wiele wariantów
-  -- z tokyonight będzie teraz wyglądać tak samo. To jest oczekiwane zachowanie.
-  blue0 = "Blue",
-  blue1 = "Cyan",
-  blue2 = "Cyan",
-  blue5 = "LightBlue",
-  blue6 = "LightBlue",
-  blue7 = "Blue",
-  green1 = "Green",
-  green2 = "LightGreen",
-  red1 = "Red",
-  magenta2 = "LightMagenta",
-  teal = "LightCyan",
+  -- Warianty kolorów
+  blue0 = 4,
+  blue1 = 6, -- Cyan
+  blue2 = 6,
+  blue5 = 12, -- LightBlue
+  blue6 = 12,
+  blue7 = 4,
+  green1 = 2,
+  green2 = 10, -- LightGreen
+  red1 = 1,
+  magenta2 = 13, -- LightMagenta
+  teal = 14, -- LightCyan
 
-  -- Mapowanie elementów UI
-  comment = "LightBlack", -- term8 (szary) jest idealny dla komentarzy
-  bg_highlight = "LightBlack",
-  dark3 = "LightBlack",
-  dark5 = "LightBlack",
-  terminal_black = "LightBlack",
+  -- Elementy UI
+  comment = 8, -- LightBlack
+  bg_highlight = 8,
+  dark3 = 8,
+  dark5 = 8,
+  terminal_black = 8,
 
-  -- Mapowanie kolorów dla Git
+  -- Git
   git = {
-    add = "Green",
-    change = "Blue",
-    delete = "Red",
+    add = 2, -- Green
+    change = 4, -- Blue
+    delete = 1, -- Red
   },
 }
 return ret

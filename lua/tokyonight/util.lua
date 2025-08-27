@@ -59,32 +59,16 @@ end
 
 --- Zamiast rozjaśniać, po prostu zwracamy oryginalny kolor.
 function M.brighten(color, lightness_amount, saturation_amount)
-  -- Specjalna obsługa dla naszych "jasnych" kolorów
-  if color == "Red" then
-    return "LightRed"
+  -- Sprawdzamy, czy `color` jest numerem
+  if type(color) ~= "number" then
+    return color -- Jeśli nie, zwróć bez zmian
   end
-  if color == "Green" then
-    return "LightGreen"
+
+  -- Jeśli kolor jest w zakresie 0-7, dodaj 8, aby uzyskać jego jasną wersję
+  if color >= 0 and color <= 7 then
+    return color + 8
   end
-  if color == "Yellow" then
-    return "LightYellow"
-  end
-  if color == "Blue" then
-    return "LightBlue"
-  end
-  if color == "Magenta" then
-    return "LightMagenta"
-  end
-  if color == "Cyan" then
-    return "LightCyan"
-  end
-  if color == "White" then
-    return "White"
-  end -- lub zostawić White
-  if color == "Black" then
-    return "LightBlack"
-  end
-  -- Dla wszystkich innych przypadków zwróć oryginalny kolor
+  -- Jeśli kolor jest już jasny (8-15), zwróć go bez zmian
   return color
 end
 
